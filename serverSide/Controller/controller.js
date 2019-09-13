@@ -5,22 +5,35 @@ exports.loginCtrl = (req, res) => {
     req.checkBody('password').isLength({
         min: 7
     })
+
     var errors = req.validationErrors()
     if (errors) {
-        responseResult.err = errors;
-        responseResult.status = false;
-        res.status(400).send(responseResult)
+        let result = {
+            'status': 422,
+            'message': 'Error in validations',
+            'data': errors
+        }
+        res.send(result)
     } else {
-        userservice.loginService(req.body, (err, result) => {
+        userservice.loginService(req.body, (err, data) => {
             if (err) {
-                responseResult.err = err;
-                responseResult.status = false;
-                res.status(400).send(responseResult)
-            } else {
-                responseResult.data = result;
-                responseResult.status = true;
-                res.status(200).send(responseResult)
+                let result = {
+                    'status': 404,
+                    'message': 'login data is not correct',
+                    'data': error
+                }
+                response.send(result)
             }
+            let result = {
+                'status': 200,
+                'message': 'login Successful',
+                'data': data
+            }
+            response.send(result)
+
         })
     }
 }
+
+
+

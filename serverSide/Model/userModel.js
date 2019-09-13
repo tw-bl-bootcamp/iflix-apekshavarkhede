@@ -25,7 +25,8 @@ class user_model {
             }
             if (result == null) {
                 return callback(err)
-            } else {
+            }
+            if (result != null) {
                 console.log("result==", result);
                 return callback(null, result)
             }
